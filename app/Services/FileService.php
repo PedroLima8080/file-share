@@ -31,19 +31,25 @@ class FileService
     public function update($title, $description, $fileId, $file, $originalName)
     {
         $existingFile = File::findOrFail($fileId);
+        $fileName = '';
 
-        Storage::disk('private')->delete($existingFile->path);
+        if($file) {
+            Storage::disk('private')->delete($existingFile->path);
+            $fileName = uniqid() . '_' . $originalName;
+            Storage::disk('private')->put($fileName, file_get_contents($file));
+        }
 
-        $fileName = uniqid() . '_' . $originalName;
-
-        Storage::disk('private')->put($fileName, file_get_contents($file));
-
-        $existingFile->update([
+        $updateData = [
             'title' => $title,
-            'description' => $description,
-            'path' => $fileName,
-            'original_name' => $originalName,
-        ]);
+            'description' => $description
+        ];
+
+        if($file) {
+            $updateData['path'] = $fileName;
+            $updateData['original_name'] = $originalName;
+        }
+
+        $existingFile->update($updateData);
 
         return $existingFile;
     }

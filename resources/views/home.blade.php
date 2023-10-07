@@ -39,6 +39,8 @@
                 @foreach ($files as $file)
                     <div class="shared-item py-2 d-flex align-items-center justify-content-between">
                         <div>
+                            <h5>{{ $file['title'] }}</h5>
+                            <div>{{ $file['description'] }}</div>
                             @if ($file['user_id'] !== Auth::user()['id'])
                                 {{ $file['user']['name'] }}
                             @else
@@ -49,7 +51,7 @@
                         </div>
                         <div>
                             @if ($file['user_id'] === Auth::user()['id'])
-                                <a href="#" class="btn btn-warning text-light"><i class="fa-solid fa-pencil"></i></a>
+                                <a href="{{ route('file.edit', ['id' => $file['id']]) }}" class="btn btn-warning text-light"><i class="fa-solid fa-pencil"></i></a>
                                 <form class="d-inline-block" action="{{ route('file.destroy', ['id' => $file['id']]) }}"
                                     method="POST">
                                     @csrf

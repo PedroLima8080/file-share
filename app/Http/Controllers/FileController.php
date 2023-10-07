@@ -20,9 +20,10 @@ class FileController extends Controller
         return view('file.create');
     }
 
-    public function edit()
+    public function edit($fileId)
     {
-        return view('file.edit');
+        $file = File::findOrFail($fileId);
+        return view('file.edit', ['file' => $file]);
     }
 
     public function store(Request $request)
@@ -36,6 +37,7 @@ class FileController extends Controller
         $title = $request->get('title');
         $description = $request->get('description');
         $file = $request->file('file');
+
         $originalName = $file->getClientOriginalName();
 
         $this->fileService->add($title, $description, $file, $originalName);
@@ -48,15 +50,17 @@ class FileController extends Controller
         $request->validate([
             'title' => 'required|max:30',
             'description' => 'required|max:100',
-            'file' => 'required|file|max:2048',
+            'file' => 'sometimes|file|max:2048',
         ]);
 
         $title = $request->get('title');
         $description = $request->get('description');
-        $file = $request->file('file');
-        $originalName = $file->getClientOriginalName();
 
-        $this->fileService->update($title, $description, $fileId, $file, $originalName);
+        $file = $request->file('file');
+        if($file) {
+            $originalName = $file->getClientOriginalName();
+        }
+        $this->fileService->update($title, $description, $fileId, null, null);
 
         return redirect()->route('home')->with('message', 'Arquivo atualizado com sucesso');
     }
