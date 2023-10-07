@@ -5,7 +5,7 @@
 /public/storage
 /storage/*.key
 /vendor
-/.docker/pgsql/*
+/.docker/pgsql
 .env
 .env.backup
 .env.production
