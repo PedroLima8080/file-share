@@ -10,9 +10,11 @@
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('home') ? 'active' : '' }}" aria-current="page" href="{{ route('home') }}">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ Route::is('users.*') ? 'active' : '' }}" aria-current="page" href="#">Usuários</a>
-                </li>
+                @if(Auth::user()['admin'])
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::is('users.*') ? 'active' : '' }}" aria-current="page" href="{{ route('user.index') }}">Usuários</a>
+                    </li>
+                @endif
                 <li class="nav-item ms-auto">
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf

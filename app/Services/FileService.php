@@ -10,7 +10,7 @@ class FileService
 {
     public function list()
     {
-        return File::with('user')->orderBy('created_at', 'asc')->get();
+        return File::with('user')->orderBy('created_at', 'desc')->get();
     }
 
     public function add($title, $description, $file, $originalName)

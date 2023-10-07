@@ -50,7 +50,7 @@
                             {{ date('d/m/Y h:i:s', strtotime($file['created_at'])) }}
                         </div>
                         <div>
-                            @if ($file['user_id'] === Auth::user()['id'])
+                            @if ($file['user_id'] === Auth::user()['id'] || Auth::user()['admin'])
                                 <a href="{{ route('file.edit', ['id' => $file['id']]) }}" class="btn btn-warning text-light"><i class="fa-solid fa-pencil"></i></a>
                                 <form class="d-inline-block" action="{{ route('file.destroy', ['id' => $file['id']]) }}"
                                     method="POST">
