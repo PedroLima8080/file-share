@@ -56,11 +56,15 @@ class FileController extends Controller
         $title = $request->get('title');
         $description = $request->get('description');
 
-        $file = $request->file('file');
-        if($file) {
+        $file = null;
+        $originalName = null;
+
+        if($request->file('file')) {
+            $file = $request->file('file');
             $originalName = $file->getClientOriginalName();
         }
-        $this->fileService->update($title, $description, $fileId, null, null);
+
+        $this->fileService->update($title, $description, $fileId, $file, $originalName);
 
         return redirect()->route('home')->with('message', 'Arquivo atualizado com sucesso');
     }
