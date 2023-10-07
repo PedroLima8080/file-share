@@ -27,7 +27,8 @@
 @endsection
 
 @section('content')
-    <form action="" class="form card col-11 col-md-4 mt-4 p-4">
+    <form action="{{ route('authenticate') }}" method="POST" class="form card col-11 col-md-4 mt-4 p-4">
+        @csrf
         <h1 class="text-center mb-4">
             Login
         </h1>
@@ -35,7 +36,12 @@
             <div class="col-12">
                 <div class="form-group">
                     <label for="">Email: </label>
-                    <input type="text" class="form-control">
+                    <input name="email" type="text" class="form-control @if($errors->has('email')) is-invalid @endif">
+                    @if ($errors->has('email'))
+                        <div class="invalid-feedback">
+                            {{ $errors->first('email') }}
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -43,10 +49,20 @@
             <div class="col-12">
                 <div class="form-group">
                     <label for="">Senha: </label>
-                    <input type="password" class="form-control">
+                    <input name="password" type="password" class="form-control @if($errors->has('password')) is-invalid @endif">
+                    @if ($errors->has('password'))
+                        <div class="invalid-feedback">
+                            {{ $errors->first('password') }}
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
+
+        @if ($errors->has('error'))
+            <div class="text-danger my-4">{{$errors->first('error')}}</div>
+        @endif
+
         <a class="my-2" href="{{ route('register') }}">Ainda não possui uma conta?</a>
         <div class="d-flex justify-content-center">
             <button class="btn btn-primary px-5 mt-4">Login</button>

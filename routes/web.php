@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
@@ -17,9 +18,21 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function() {
     Route::get('/login', [LoginController::class, 'loginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate');
+
     Route::get('/register', [LoginController::class, 'registerForm'])->name('register');
 });
 
 Route::middleware('auth')->group(function() {
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+    Route::name('file')->prefix('file')->group(function() {
+        Route::get('/create', [FileController::class, 'create'])->name('.create');
+        Route::get('/edit/{id}', [FileController::class, 'edit'])->name('.edit');
+        Route::post('/store', [FileController::class, 'store'])->name('.store');
+        Route::put('/update/{id}', [FileController::class, 'update'])->name('.update');
+        Route::delete('/delete/{id}', [FileController::class, 'destroy'])->name('.destroy');
+        Route::get('/download/{id}', [FileController::class, 'downloadPrivateFile'])->name('.download');
+    });
 });

@@ -58,9 +58,15 @@
                 <div class="form-group">
                     <label for="">Confirmar senha: </label>
                     <input type="password" class="form-control">
+                    <div class="invalid-feedback"></div>
                 </div>
             </div>
         </div>
+        {{ json_encode($errors->all()) }}
+        @foreach ($errors->all() as $error)
+            <div class="text-danger">{{ $error }}</div>
+        @endforeach
+
         <a class="my-2" href="{{ route('login') }}">Já possui uma conta?</a>
         <div class="d-flex justify-content-center">
             <button class="btn btn-primary px-5 mt-4">Registrar</button>
