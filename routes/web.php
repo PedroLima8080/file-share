@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,15 +17,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('guest')->group(function() {
-    Route::get('/login', [LoginController::class, 'loginForm'])->name('login');
-    Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate');
+    Route::get('/login', [AuthController::class, 'loginForm'])->name('login-form');
+    Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
 
-    Route::get('/register', [LoginController::class, 'registerForm'])->name('register');
+    Route::get('/register', [AuthController::class, 'registerForm'])->name('register-form');
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
 });
 
 Route::middleware('auth')->group(function() {
     Route::get('/', [HomeController::class, 'index'])->name('home');
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::name('file')->prefix('file')->group(function() {
         Route::get('/create', [FileController::class, 'create'])->name('.create');

@@ -13,20 +13,26 @@
             position: relative;
             background: rgb(243, 243, 243);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-        }
-
-        form {
-            /* position: absolute !important;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%); */
         }
     </style>
 @endsection
 
 @section('content')
+    <div class="mb-2">
+        @if (Session::has('message'))
+            <div class="alert alert-success">
+                {{ Session::get('message') }}
+            </div>
+        @endif
+        @if ($errors->has('message'))
+            <div class="alert alert-danger">
+                {{ $errors->first('message') }}
+            </div>
+        @endif
+    </div>
     <form action="{{ route('authenticate') }}" method="POST" class="form card col-11 col-md-4 mt-4 p-4">
         @csrf
         <h1 class="text-center mb-4">
@@ -36,7 +42,8 @@
             <div class="col-12">
                 <div class="form-group">
                     <label for="">Email: </label>
-                    <input name="email" type="text" class="form-control @if($errors->has('email')) is-invalid @endif">
+                    <input name="email" type="text"
+                        class="form-control @if ($errors->has('email')) is-invalid @endif">
                     @if ($errors->has('email'))
                         <div class="invalid-feedback">
                             {{ $errors->first('email') }}
@@ -49,7 +56,8 @@
             <div class="col-12">
                 <div class="form-group">
                     <label for="">Senha: </label>
-                    <input name="password" type="password" class="form-control @if($errors->has('password')) is-invalid @endif">
+                    <input name="password" type="password"
+                        class="form-control @if ($errors->has('password')) is-invalid @endif">
                     @if ($errors->has('password'))
                         <div class="invalid-feedback">
                             {{ $errors->first('password') }}
@@ -60,12 +68,12 @@
         </div>
 
         @if ($errors->has('error'))
-            <div class="text-danger my-4">{{$errors->first('error')}}</div>
+            <div class="text-danger mt-2">{{ $errors->first('error') }}</div>
         @endif
 
-        <a class="my-2" href="{{ route('register') }}">Ainda não possui uma conta?</a>
+        <a class="my-2" href="{{ route('register-form') }}">Ainda não possui uma conta?</a>
         <div class="d-flex justify-content-center">
-            <button class="btn btn-primary px-5 mt-4">Login</button>
+            <button class="btn btn-primary px-5 mt-2">Login</button>
         </div>
     </form>
 @endsection
