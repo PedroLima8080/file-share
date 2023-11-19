@@ -21,7 +21,7 @@ Para subir o sistema você deve possuir o Git e o Docker instalado. Tendo essas 
 - 5.3 - php artisan key:generate
 - 5.4 - php artisan migrate
 - 5.5 - php artisan db:seed --class=AdminSeeder
-- 5.6 - php artisan storage:link
+- 5.6 - php artisan storage:lin
 
 Após seguir estas etapas, o sistema estara disponivel no endereço: http://localhost/login
 O login de admin é:
